@@ -1,0 +1,98 @@
+【 C:SL 日本語化用パック 】 ver. 1.0
+作業所スレ http://anago.2ch.net/test/read.cgi/game/1426212110/ の>>32
+※日本語化作業用のツールで、（使うための）日本語化MODではありません
+
+● packunpack.rb
+
+Ruby 2.0以上で動作するはずです。
+誰か親切な人がexe化してくれるとなくても動きます。
+
+ ruby packunpack.rb [.localeファイル] ([古い(＝比較対象の).tsvファイルのパス])
+ → このフォルダに、**.locale-(時刻).tsvを出力
+ ※古い.tsvを指定した場合、マージモード(変更のない翻訳を流用)
+   .tsv と deleted-(時刻).txt を出力します(削除行がある場合)
+
+ ruby packunpack.rb [オプション] [.tsvファイル]
+ → このフォルダに、output-(時刻).localeを出力
+（※.tsvファイルは必ずUTF-8で保存してください）
+ [オプション]
+ -U              改行処理を一切しない
+ -m 数字         [数字]文字以上の行から改行処理
+ -x EXPR,EXPR... 改行処理の詳細な除外条件
+                 行番号または NAME{KEY}[INDEX] 形式で指定
+ -D              -m, -x で除外された行を表示
+（※詳しくは ruby packunpack.rb --help で出るヘルプを見てください）
+（※ -D の出力が長くて読みきれねぇよ(ﾟДﾟ)ｺﾞﾙｧ！という方は、Windows の場合 "> [ファイル名]" とつけるとそのファイル名に書き出します
+　例： "ruby packunpack.rb -D -x (…この間3万文字…) en.locale.tsv > nantoka.txt" ）
+
+● en.locale.sample.tsv
+
+このスクリプトで生成した翻訳用テンプレートです。(1.3.2-f1 時点)
+復元の関係上、>>230と比べて左に二行程度追加しています。
+また、>>230にあった微妙な文字化けが直っています。
+※作業所のスプレッドシートに対応するのは、"###HEADER", "data-count"と書いてある行の直後からです。
+
+変更していいのは、右の translation 列だけです！
+また、value が変な括弧で囲まれている部分は基本的にいじってはいけません！translation にコピーしなくてもいいです！
+
+以前のバージョンのスクリプトでも動作します。
+
+● output.sample.locale
+
+2016/03/06 時点の en.locale と作業所データから生成したサンプルです。
+出力時のオプションは
+ -m 8 -x DISTRICT_HOUSEHOLDS[0],DISTRICT_NAME,DISTRICT_PATTERN,RESIDENCE_NAME,RESIDENCE_LOW_PATTERN,RESIDENCE_HIGH_PATTERN,COMMERCIAL_HIGH_NAME,COMMERCIAL_LOW_NAME,OFFICE_NAME,INDUSTRIAL_NAME,BUILDING_TITLE,NAME_MALE_FIRST,NAME_MALE_LAST,NAME_FEMALE_FIRST,NAME_FEMALE_LAST,TRANSPORT_LINE_PATTERN,{America/Europe/Mideast/native-name/english-name}
+という長大なものになっています。
+-D でどうなっているか確かめてみるとわかりやすいかもしれません。
+
+● diff-sample.tsv
+   deleted-sample.tsv
+
+2016/03/06 時点の en.locale と ver. 0.8 時点のサンプルデータをマージモードで合成したサンプルです。
+このまま訳文を貼り付けて .locale 化することも可能です。
+※ただし、0.8以前のバージョンで .locale を生成すると、バグのため壊れた形式を出力することがあるので、古いスクリプトに通す場合は、former_value, former_translation 欄は削除する必要があります。
+
+原文(value)に変更があった行は訳文(translation)に"***"で、追加された行は"+++"で示してあります。
+（このへんの書式は要望次第で変更します）
+原文に変更がなかった行は古い訳文をそのまま流用します。
+比較対象となるTSVから削除されている行は、deleted-sample.tsv に出力されます。
+
+● 更新履歴
+
+ver. 1.0
+ 2016/03/06
+ 「とりあえず」ではなく正式版に
+ 公式APIに準拠した動作に変更
+ .tsvのフォーマットを若干変更（後方互換性あり）
+ 隠れていたバグなどを修正
+ エラー処理とかもっとちゃんとした
+ 説明・ヘルプを修正
+ver. 0.8
+ 2015/05/28
+ 1.1.0のフォーマット変更に仮対応
+ 説明中の誤りなどを修正
+ver. 0.7b
+ 2015/04/02
+ 説明・ヘルプをもろもろ修正
+ver. 0.7
+ 2015/04/02
+ -x に名前指定機能を追加
+ -x が動作しないバグを修正
+ 診断用表示オプションを設定
+ver. 0.6
+　2015/03/31
+　ロジックを微修正（互換性には影響なし）
+　禁則処理を修正（適用範囲を原則和文のみにし、ロシア語などはスルー）
+　改行処理オプションを設定
+　コマンドラインヘルプを追加
+　その他ソース汚れを洗濯
+　>>320→>>230（すまぬ…すまぬ……）
+ver. 0.5
+　2015/03/16
+　変換ロジックを修正（アップデートが来ても大丈夫なはず）
+ver. 0.2
+　2015/03/16
+　禁則処理正規表現の修正・整理（英語には無関係・日本語で数バイト変わる程度）
+　axfcの闇に消える
+無印
+　2015/03/15

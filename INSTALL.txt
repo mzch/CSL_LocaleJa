@@ -1,0 +1,5 @@
+ja.locale を以下の場所にコピーまたは移動して下さい。
+
+Windows: C:\Program Files (x86)\Steam\steamapps\common\Cities_Skylines\Files\Locale
+Mac: /Users/<user_name>/Library/Application Support/Steam/steamapps/common/Cities_Skylines/Cities.app/Contents/Resources/Files/Locale
+Linux: /home/<user_name>/.local/share/Steam/steamapps/common/Cities_Skylines/Files/Locale
